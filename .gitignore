@@ -1,0 +1,11 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# C# / .NET
+bin/
+obj/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
