@@ -17,7 +17,7 @@ When assembly is complete, it shows a completion message.
 
 **Running the program:**  
 1. Open a terminal in the `ChallengeA_Csharp` folder.  
-2. Run the program using:  
+2. Run the program using: `dotnet run`
 3. Follow the prompts to enter:  
 - Total steps  
 - Current step number  
