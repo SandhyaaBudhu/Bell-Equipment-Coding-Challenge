@@ -1,0 +1,44 @@
+=============== NORMALIZED TABLES WITH PK & FK ===============
+
+Table 1: Machine
+Columns:
+> MachinePIN (PK) - unique identifier for each machine
+> ModelName - model name of the machine
+
+
+Table 2: Bay
+Columns:
+> BayID (PK) - unique identifier for each bay
+> BayName - name of the bay 
+> SupervisorName - name of the supervisor for the bay
+
+
+Table 3: Movement
+Columns:
+> MovementID (PK) - unique identifier for each movement record
+> MachinePIN (FK) - Machine(MachinePIN) - Which machine moved
+> BayID (FK) -> Bay(BayID) - which bay the machine entered
+> EnteredAt - date and time when the machine entered the bay
+> ScannedBy - person who scanned the machine
+
+
+
+=============== WHY THIS DESIGN ===============
+- each machine and bay is only stored once, so their details are not repeated every time a machine moves
+- the movement table records every time a machine goes to a bay without duplicating machine or bay information
+- this makes it easier to add more machines or bays without having to change the existing data and the design also keeps the database organised and ensures information is easy to update and maintain
+- each movement is recorded separately so the full history of where every machine has been can be seen
+
+
+
+=============== SQL QUERY =============== 
+SELECT m.MachinePIN, m.ModelName, b.BayName, mv.EnteredAt
+FROM Machine m
+JOIN Movement mv ON m.MachinePIN = mv.MachinePIN
+JOIN Bay b ON mv.BayID = b.BayID
+WHERE mv.EnteredAt = (
+    SELECT MAX(EnteredAt)
+    FROM Movement
+    WHERE MachinePIN = m.MachinePIN
+)
+ORDER BY m.MachinePIN;
